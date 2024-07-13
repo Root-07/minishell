@@ -41,7 +41,7 @@ export TEST=42 && echo $TEST # Should output: 42
 This is where the baby steps start.
 The main role of this step is :
 - Identify Tokens :
-  ![Tokenizer display](resources/Tokenizer.png)
+  ![Tokenizer display](https://raw.githubusercontent.com/YeGoRenji/minishell-1337/main/resources/Tokenizer.png)
   Example command is:
 ```bash
 echo "Hello"$HOME && ls' -la' | > file cat
