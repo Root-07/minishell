@@ -1,81 +1,116 @@
-				Minishell
+## A not so *mini* shell 🐚
+This is a Project of The 42 Cursus Common Core in 1337 school that I worked on with my Teammate [@rlabbiz](https://github.com/rlabbiz)
 
-Functions:
+The project consists of making an \**almost*\* complete POSIX shell (Bash'ish) using barebone C (The only external library is `readline`).
 
-	-> access :
-		`access` is a function used to check whther a file exists and to test for the accessibility of the file. it take two arguments, the name of file and the mode of access.
-			``` int access(const char *path, int mode) ```
-		path: argument ponter to a string that contains the name of file you want to check.
-		mode: argument is an integer that soecifies the type of access you want to check for.
-			the following values can be used for the `mode`:
-				`F_OK`: tests for the exitence of the file.
-				`R_OK`: tests for read permission.
-				`W_OK`: tests for write permission.
-				`X_OK`: tests for execute permission.
-		RETURN: the `access` function returns 0 if the requested access is allowed, or -1 if it is not allowed.
-	
-	-> fork :
-		`fork` is a system call in Unix-based operating systems that creates a new process by duplicationg the calling process, and the original process is called the parent proccess. after `fork` is called, both the parent and child processes execute the same code starting from the next instruction following the `fork` call.
-			``` pid_t fork(void) ```
-		RETURN: the `fork` function return a value of type pid_t, which is a signed integer type that represents the process ID (PID) of the child process in the parent process, and 0 in the child process. if `fork` fails, it return -1.
-	
-	-> wait : 
-		`wait` function used to wiat for a child process to tarminate and obtain its termination status. it takes a pointer to an integer variable where the termination status will be stored as an argument.
-			``` pid_t wait(int *status) ```
-		status: the `status` argument pointer to an integer variable that will be used to store the termination status of the child process.
-		RETURN: the function return the process ID of the terminated child process, or -1 if an error occurs.
-	
-	-> waitpid :
-		`waitpid` is a system call in the C programming language that waits for a child process to change its state. it is used to synchronize the parent and child processes and to retrieve the exit status of a child process.
-			``` pid_t waitpid(pid_t pid, int *status, int options) ```
-		pid: the `pid` argument specifies the process ID of the child process to wait for. if `pid` is negative, `waitpid` waits for any child process whose process group ID is equal to the absolute value of `pid`. if `pid` is zero, waits for any child process whose process group ID is equal to the of the calling process. if `pid` is positive, waits for the child process whose process ID is equal to `pid`.
-		status: the `status` argument is a pointer to an integer variable in which the exit status of the child process is stored. if `status` is `NULL`, the exit status is not retrieved.
-		options: the `options` argument specifies various options for the `waitpid` function. the commonly used options are `WUNTRACED` and `WCONTINUED`, which respectively cause `waitpid` to return when a child process is stopped or continued.
-		RETURN: the return value of `waitpid` is the process ID of child process that change state, or -1 if an error accurred.
+## How To Use 
+```bash
+$ git clone --recursive git@github.com:YeGoRenji/minishell-1337.git && cd minishell-1337
+$ make
+$ ./minishell
+[/tmp/lab/minishell-1337]
+➤
+```
 
-	-> wait3 :
-		in C programming, `wait3` is a sistem call used to wait for any child process to terminate and retrieve information about its resource usage. the `wait3` fucntion is similar to `waitpid`, but provides additional information about child process's resource usage. 
-			``` pid_t wait3(int *status, int options, struct rusage *usage) ```
-		status: a pointer to an integer where the status of the terminated child process is stored.
-		options: a set of options that control the behavior of the function. the option can include `WNOHANG` to return immediately if no child process has terminated, `WUNTRACED` to report the status of child processes that have been stopped, and `WCONTTNUED` to report the status of child processes that have benn resumed.
-		usage: a pointer to a `struct rusage` the stores information about the resources used by the child process.
+## The Features ✨
+Our Shell69 has the following features :
+- Commands with absolute and relative paths
+- Single and double quotes
+- Redirections `<, > and >>`
+- Pipes `|`
+- Environment variables (and special ones such as `$?`)
+- Signals (CTRL-\\, CTRL-C, CTRL-D)
+- Bash builtins `echo, cd, pwd, export, unset and exit`
+- Here_doc `<<` with signals
+- Exit statuses follows bash conventions
+- **BONUS**:
+  - `&&` and `||` with **parenthesis** for priorities
+  - Wildcards \* in the current directory
+  - Subshells ! (*Yes not a part of subject but why not*)
 
-	-> execve :
-		`execve` is a function in C that allows a process to replace its current program image with a new one. it is often used to execute a different program, with different arguments and environment variables.
-			``` int execve(const char *path, char * const argv[], char * const envp[]) ```
-		path: a path name that identifies the new process image file.
-		argv: an array of character pointers to NULL-terminated strings. your application must ensure that the last member of this array is a NULL pointer. these strings constitute the argument list available to the new process image. the value is `argv[0]` must point to a filename that's associated with the process being started.
-		envp: an array of character pointers to NULL-terminated strings. these strings constitute the environment for the new process image. terminate the envp array with a NULL pointer.
-		RETURN: the `execve` does not return if it  is successful. or in case of an error `execve` return -1 and set type of error in global variable `errno`.
-	
-	-> readline :
-		`readline` will read a line from the terminal and return it, using prompt as prompt. if prompt is NULL or the empty string, no prompt is issued. the line returned is allocated with malloc. the caller must free it when finished. the line returned has the final newline removed, so only the text of the line remains.
-			``` char *readline(const char *prompt) ```
-		prompt: the text to show to the user in terminal as prompt.
-		RETURN: `readline` return the text of the line read. a blank line returns the empty string. if EOF is encountered while reading a line, and the line is empty, NULL is returned.
-	
-	-> add_history :
-		`add_histroy` is a fucnction provided by the `readline` library in C, which is used to add a line of text to the history list.
-			``` void add_history(const char *input) ```
-		input: the `input` is the line readed from terminal using `readline` function, pass it here to added to the history list.
-		
-	-> rl_clear_histroy :
-		`rl_clear_history` is a function provided by the `readline` library in C, which is used to clear the history list of previously entered input.
-			``` void rl_clear_history(void) ```
-	
-	-> rl_replace_line :
-		`rl_replace_line` is a fucntion provided by the `readline` library in C, which is used to replace the current input line with a new string.
-			``` void rl_replace_line(const char *new_input, int flag) ```
-		new_input: replace the `prompt` of `readline` function with `new_input`.
-		flag: I dont know it, but pass 0 to it.
+## How it works ⚙️
 
-	-> rl_on_new_line :
-		`rl_on_new_line` is a fucntion provided by the `readline` library in C, which used to move the cursor to the beginning of a new line.
-			``` void rl_on_new_line(void) ```
-	
-	-> rl_redisplay : 
-		`rl_redisplay` is a fucntion provided by the `readline` library in C that allows you to force the display to be update with the current input line. this can be useful when you need to modify the input line in response to some event or condition, and you want to make sure that the update input line is immediately displayed to the user.
-			``` void rl_redisplay() ```
+The project follows this pipeline to make the code as organized as possible : \
+`Lexer` -> `Parser` -> `Expander` \*-> `Executor`
 
-	
+> (\*) in case of precedence there is another `Expanding` that is done while`Executing`.
+```bash
+export TEST=42 && echo $TEST # Should output: 42
+```
+### The Lexer (Tokenizer) 🔠 :
+This is where the baby steps start.
+The main role of this step is :
+- Identify Tokens :
+  ![Tokenizer display](resources/Tokenizer.png)
+  Example command is:
+```bash
+echo "Hello"$HOME && ls' -la' | > file cat
+```
+  Using a linked list that has two pointers one for token next **after space** and **after no space**.
+- Check for Lexing errors :
+    Unclosed `'` or `"` :
+	![Tokenizer display](file:///Users/ael-amin/.TemporaryItems/folders.101100/TemporaryItems/(A%20Document%20Being%20Saved%20By%20screencaptureui)/Screen%20Shot%202024-07-13%20at%208.39.38%20PM.png)
+	Unknown character :
+	![Unexpected Token](file:///Users/ael-amin/.TemporaryItems/folders.101100/TemporaryItems/(A%20Document%20Being%20Saved%20By%20screencaptureui%202)/Screen%20Shot%202024-07-13%20at%208.42.20%20PM.png)
+### The Parser 🧩 :
+This part is where the tokens start having a structural meaning.
+The `Executor`'s complexity is highly dependent on this part.
+#### The Recursive Descent Parser 🌲 🔄 :
+The structure we used is a tree or more specifically its called **Abstract Syntax Tree** :
+This data structure is the one used for parsing programming languages, Its utility comes when Trying to define Syntactical errors.
+This is the example of the abstract syntax tree generated from the command above on Lexer.
+example :
+ ![AST1](resources/AST.png)
+> The command (executable + arguments) and the filenames are left as tokens so they are expanded later.
 
+ Another example :
+```bash
+ echo "Salam" || ls -la && cat /etc/passwd | grep 'yego'
+```
+  ![AST1](resources/AST2.png)
+The Syntax analysis works as you go along parsing, for example finding a `(` expects an expression (sub tree) then after that a `)`
+Using recursion makes this process cleaner :
+```c
+t_ast_cmd	*parse_parenths(t_token **current)
+{
+	t_ast_cmd	*node;
+
+	node = NULL;
+	if (match(*current, (t_token_type[]){LPREN}, 1)) // match `(`
+	{
+		advance(current);
+		node = parse_cmd(current); // parse expression inside
+		if (!node || !match(*current, (t_token_type[]){RPREN}, 1)) // match `)`
+			return (free_ast(node), NULL);
+		advance(current);
+	}
+	node = subsh_node(node);
+	if (!node)
+		return (free_ast(node), NULL);
+	return (node);
+}
+``` 
+### The Executor  ⚡️ :
+This part becomes quite simple because of how things were setup on the last part (The Parser)
+Executing is just traversing (in-order Depth-first traversal) the AST.
+This is an animation that explains it all :
+ ![executionAnim](resources/execAnimation.gif)
+### The Expander 💥  :
+While executing whenever the executed node has a tokens list it will be expanded.
+Expanding is the action of  :
+- Evaluating Env variables `$var`
+- Joining Tokens together to generate an `argv list`
+- Expanding wildcards in current workdir `*`
+
+Now comes handy the fact that we still have the tokens from the Lexer, cause they have the information for whether to expand it or not.
+In simple terms Expander takes a list of tokens and *consumes* them to a `char **` args
+that will be used depending on the node executed :
+- EXEC node:  The args are just given to `execve` syscall.
+- REDIR node: The args are the filename (its an error if expanding gave more than 1 arg).
+
+As mentioned above the expanding is done while executing so that we have contextual variables change like this example :
+```bash
+export TEST=42 && echo $TEST # Should output: 42
+```
+### Conclusion   :
+Working on the minishell project has been an incredibly enriching experience for me. Throughout this journey, I've delved deep into the realms of system programming and shell scripting, honing my problem solving skills and understanding the intricacies of building a POSIX-compliant shell.

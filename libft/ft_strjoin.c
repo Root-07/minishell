@@ -6,7 +6,7 @@
 /*   By: rlabbiz <rlabbiz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 13:57:08 by rlabbiz           #+#    #+#             */
-/*   Updated: 2023/04/11 17:11:22 by rlabbiz          ###   ########.fr       */
+/*   Updated: 2023/06/22 15:23:52 by rlabbiz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,31 +16,26 @@ char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*ptr;
 	size_t	i;
-	
+	size_t	j;
+
 	if (!s1)
 	{
-		s1 = (char *)malloc(1);
+		s1 = malloc(1);
 		s1[0] = '\0';
 	}
-	i = 0;
-	if (!s1 || !s2)
-		return (NULL);
+	i = ((j = 0), 0);
 	ptr = (char *)malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
-	if (!ptr)
-		return (NULL);
-	while (*s1 != '\0')
+	while (s1[i] != '\0')
 	{
-		ptr[i] = *s1;
+		ptr[i] = s1[i];
 		i++;
-		s1++;
 	}
-	while (*s2 != '\0')
+	while (s2[j] != '\0')
 	{
-		ptr[i] = *s2;
+		ptr[i] = s2[j];
 		i++;
-		s2++;
+		j++;
 	}
 	ptr[i] = '\0';
-	free(s1);
-	return (ptr);
+	return (free(s1), ptr);
 }

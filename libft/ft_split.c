@@ -6,7 +6,7 @@
 /*   By: rlabbiz <rlabbiz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 15:56:39 by rlabbiz           #+#    #+#             */
-/*   Updated: 2022/10/21 18:41:05 by rlabbiz          ###   ########.fr       */
+/*   Updated: 2023/06/22 15:17:23 by rlabbiz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,19 +42,19 @@ static int	ft_len(char const *s, char c)
 	return (i);
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_split(char const *str, char c)
 {
-	char	**ptr;
-	int		len;
-	int		j;
+	char		**ptr;
+	int			len;
+	int			j;
+	char const	*s = str;
 
 	if (!s)
 		return (0);
-	len = ft_count(s, c);
+	len = ((j = 0), ft_count(s, c));
 	ptr = (char **)malloc((len + 1) * sizeof(char *));
 	if (!ptr)
 		return (NULL);
-	j = 0;
 	while (*s && j < len)
 	{
 		while (*s && *s == c)
