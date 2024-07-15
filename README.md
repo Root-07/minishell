@@ -5,7 +5,7 @@ The project consists of making an \**almost*\* complete POSIX shell (Bash'ish) u
 
 ## How To Use 
 ```bash
-$ git clone --recursive git@github.com:YeGoRenji/minishell-1337.git && cd minishell-1337
+$ git clone --recursive git@github.com:ael-amin/minishell-1337.git && cd minishell-1337
 $ make
 $ ./minishell
 [/tmp/lab/minishell-1337]
